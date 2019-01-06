@@ -30,10 +30,28 @@ MOUNT_DIR = "/media/op1"
 USBID_OP1 = "*Teenage_OP-1*"
 
 op1path=MOUNT_DIR
-homedir="/home/pi/opc"#
+homedir="/home/pi/opc"
 
 # INITIALIZATION
+class menu:
+	"""docstring for menu"""
+	def __init__(self, name, menulist, funclist):
+		super(menu, self).__init__()
+		self.list = menulist
+		self.parent = parent
+		self.func = funclist
+		self.name = name
+		
+	def getlist():
+		return self.list
 
+	def getfunc(pos):
+		return self.func[pos]
+
+	def getval(pos):
+		return self.list[pos]
+
+		
 def init():
 
 	serial = spi(device=0, port=0)
@@ -45,6 +63,8 @@ def init():
 	#drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples"])
 	#scanSamples("dummy")
 	#drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples","done."])
+
+	#BOOTLOGO TEENAGE ENGINEERING
 
 	#boot logo!
 	#drawSplash(device)
@@ -92,6 +112,36 @@ def drawText(device,textlist):
 		for idx,text in enumerate(textlist):
 			#print text, ", ", idx
 			draw.text((0,idx*10),text,"white")
+
+def saveCaller(device, val):
+
+	directory = homedir + "/projects/"
+	projects = []
+
+	for filename in os.listdir(directory):
+
+		fullPath = directory + filename
+		projects.append([filename,fullPath])
+
+	projects.sort()
+
+	save = menu("Save Project", ["NEW PROJECT"] ++ projects[:,0], [saveNew] ++ [overwrite]*len(projects))
+	menuMove(device, menu)
+
+def loadCaller(device, val):
+
+	directory = homedir + "/projects/"
+	projects = []
+
+	for filename in os.listdir(directory):
+
+		fullPath = directory + filename
+		projects.append([filename,fullPath])
+
+	projects.sort()
+
+	load = menu("Load Project", projects[:,0], [load]*len(projects))
+	menuMove(device, menu)
 
 def dispListMenu(device,title,menu,pos):
 	menlen = len(menu)
@@ -165,22 +215,32 @@ def dispListMenu(device,title,menu,pos):
 				#print("idx: ",idx,"line: ",line,"fill: ",flist[idx])
 			#	draw.text((axdist,(idx+1)*10+yoffset),line,alistc[idx])
 
-def menuMove(device, menu, name):
+def menuMove(device, menu):
 	pos = 0
-	menlen = len(menu)
-	dispListMenu(device, name, menu, pos)
+	menulist = menu.getlist()
+	menlen = len(menulist)
+	dispListMenu(device, menu.name, menulist, pos)
 	while True:
 		if GPIO.event_detected(key['down']):
 			pos = listMove(pos, 1, menlen)
-			dispListMenu(device, name, menu, pos)
+			dispListMenu(device, menu.name, menulist, pos)
 		elif GPIO.event_detected(key['up']):
 			pos = listMove(pos, -1, menlen)
-			dispListMenu(device, name, menu, pos)
+			dispListMenu(device, menu.name, menulist, pos)
+		elif GPIO.event_detected(key['key1']):
+			menu.getfunc(pos)(device, menu.getval(pos))
+			dispListMenu(device, menu.name, menulist, pos)
+		elif GPIO.event_detected(key['key3']):
+			break
+
+
 
 def main():
 	device=init()
-	menu = ["save project", "load project","manage projects", "manage sample packs","hurra, ich bin","eine option","show bob+vegana"]
-	menuMove(device, menu, "OP-1 Companion")
+	main = menu("OP-1 Companion",["save project", "load project", "manage sample packs"], 
+		[saveCaller, loadCaller, samplepackCaller])
+	while True:
+		menuMove(device, menu)
 
 if __name__ == '__main__':
 	main()
