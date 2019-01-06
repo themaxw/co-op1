@@ -33,8 +33,8 @@ def main():
 				elif subfile.endswith(".DS_Store"):
 					continue
 				else:
-					print "what's going on here. name your folders or hold it with the nesting"
-					print "SUBFILE: ",subfile
+					print("what's going on here. name your folders or hold it with the nesting")
+					print("SUBFILE: ",subfile)
 			if containsAif==1:
 				readAifDir(file,fullPath)
 
@@ -59,9 +59,9 @@ def main():
 def readAifDir(name,path):
 	#should return amount of .aif's found in dir
 	aifsampleList=[["a","a"]]
-	print
-	print "readAif directory: ",name
-	print path
+	print()
+	print("readAif directory: ",name)
+	print(path)
 	for file in os.listdir(path):
 		fullPath=path+"/"+file
 		if file.endswith('.aif')or file.endswith(".aiff"):
@@ -74,14 +74,14 @@ def readAifDir(name,path):
 			#ignore .DS_Store mac files
 			continue
 		else:
-			print fullPath, " is not a aif. what gives?"
+			print(fullPath, " is not a aif. what gives?")
 	if ["a","a"] in aifsampleList:
 			aifsampleList.remove(["a","a"])
 
 	for sample in aifsampleList:
-	 	print sample[1] #fullpath
+	 	print(sample[1]) #fullpath
 	 	atts=readAif(sample[1]) #reads aiff and gets attributes!
-	 	print atts['type']
+	 	print(atts['type'])
 	 	#print atts
 	
 
