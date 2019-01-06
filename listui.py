@@ -35,22 +35,8 @@ homedir="/home/pi/opc"
 
 #LIST OF SAMPLE PACKS AND PATHS
 sampleListSynth=[
-		["_josh","/home/pi/opc/samplepacks/_josh/"],
-		["courtyard","/home/pi/opc/samplepacks/courtyard/"],
-		["dawless","/home/pi/opc/samplepacks/dawless/"],
-		["C-MIX","/home/pi/opc/samplepacks/C-MIX/"],
-		["inkd","/home/pi/opc/samplepacks/op1_3.2/inkdd/"],
-		["Dark Energy","/home/pi/opc/samplepacks/op1_3.2/Dark Energy/"],
-		["memories","/home/pi/opc/samplepacks/CUCKOO OP-1 MEGA PACK/CUCKOO OP-1 MEGA PACK/OP-1 patches/Put in synth/memories/"],
-		["opines","/home/pi/opc/samplepacks/CUCKOO OP-1 MEGA PACK/CUCKOO OP-1 MEGA PACK/OP-1 patches/Put in synth/opines/"],
-		["vanilla sun","/home/pi/opc/samplepacks/vanilla sun/"],
-		["mellotron","/home/pi/opc/samplepacks/mellotronAifs/"],
-		["hs dsynth","/home/pi/opc/samplepacks/hs dsynth vol1/"],
-		["cassette","/home/pi/opc/samplepacks/cassette/"],
-		["SammyJams","/home/pi/opc/samplepacks/SammyJams Patches"]
-
-
-
+		#["_josh","/home/pi/opc/samplepacks/_josh/"],
+		
 		]
 
 sampleListSynth=[["test","test"]]
@@ -58,18 +44,7 @@ sampleListDrum=[["test","test"]]
 
 #List of tapes and paths
 tapeList=[
-		["recycling bin v1","/home/pi/Desktop/tapes/recycling bin v1/tape"],
-		["recycling bin v2","/home/pi/Desktop/tapes/recycling bin v2"],
-		["fun with sequencers","/home/pi/Desktop/op1-tapebackups/fun with sequencers"],
-		["lofi family","/home/pi/Desktop/op1-tapebackups/lofi family"],
-		["primarily pentatonic","/home/pi/Desktop/op1-tapebackups/primarily pentatonic"],
-		["2018-02-24","/home/pi/Desktop/op1-tapebackups/2018-02-24"],
-		["lets start with guitar","/home/pi/Desktop/op1-tapebackups/lets start with guitar this time"],
-		["spaceman","/home/pi/Desktop/op1-tapebackups/2018-03-25"],
-		["slow & somber","/home/pi/Desktop/op1-tapebackups/slow & somber"],
-		["cool solo","/home/pi/Desktop/op1-tapebackups/cool solo"],
-		["technical advantage","/home/pi/Desktop/op1-tapebackups/technical advantage"],
-		["heartbeat slide","/home/pi/Desktop/op1-tapebackups/heartbeat slide"]
+		#["recycling bin v1","/home/pi/Desktop/tapes/recycling bin v1/tape"],
 
 		]
 #print tapeList
@@ -594,7 +569,7 @@ def backupTape(device):
 
 
 		print("op1 connection success")
-		print("Backup Track?")
+		print("Save Track?")
 		print("  1-back")
 		print("  2-continue")
 
@@ -609,7 +584,7 @@ def backupTape(device):
 				#draw.text((0,20),"Backup tape?","white")
 				#Copy Operation
 				cdate=datetime.datetime.now()
-				dpath='/home/pi/opc/op1-tapebackups/'+str(datetime.date.today())+" "+cdate.strftime("%I:%M%p")
+				dpath='/home/pi/opc/projects/'+str(datetime.date.today())+" "+cdate.strftime("%I:%M%p")
 				spath1=op1path+'/tape/track_1.aif'
 				spath2=op1path+'/tape/track_2.aif'
 				spath3=op1path+'/tape/track_3.aif'
