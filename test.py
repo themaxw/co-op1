@@ -93,7 +93,7 @@ def drawText(device,textlist):
 def main():
 	device=init()
 	while True:
-		if GPIO.add_event_detect(key['key2']):
+		if GPIO.event_detected(key['key2']):
 			drawText(device,["helo"])
 
 if __name__ == '__main__':
