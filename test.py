@@ -89,9 +89,12 @@ def drawText(device,textlist):
 		for idx,text in enumerate(textlist):
 			#print text, ", ", idx
 			draw.text((0,idx*10),text,"white")
-			
+
 def main():
 	device=init()
 	while True:
 		if GPIO.add_event_detect(key['key2']):
 			drawText(device,["helo"])
+
+if __name__ == '__main__':
+	main()
