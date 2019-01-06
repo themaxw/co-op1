@@ -40,14 +40,14 @@ def init():
 	device = sh1106(serial,rotate=2)
 	drawText(device,['Initializing GPIO'])
 	initgpio()
-	drawText(device,['Initializing GPIO',"Scanning Tapes"])
-	scanTapes(device)
-	drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples"])
-	scanSamples("dummy")
-	drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples","done."])
+	#drawText(device,['Initializing GPIO',"Scanning Tapes"])
+	#scanTapes(device)
+	#drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples"])
+	#scanSamples("dummy")
+	#drawText(device,['Initializing GPIO',"Scanning Tapes","Scanning Samples","done."])
 
 	#boot logo!
-	drawSplash(device)
+	#drawSplash(device)
 	time.sleep(2)
 
 
@@ -115,7 +115,7 @@ def dispListMenu(device,title,menu,pos):
 	yoffset=4
 	
 	#menu
-	width=100 #width of hilight
+	width=128-2*xdist #width of hilight
 	mlistc=["white"]*len(cutout)
 	mlistc[relative] = "black"
 
@@ -137,10 +137,10 @@ def dispListMenu(device,title,menu,pos):
 
 		# // STATUS BAR //
 
-		if is_connected()==1:
-			draw.rectangle((116,2,124,10), outline="black", fill="black")
-		else:
-			draw.rectangle((116,2,124,10), outline="black", fill="white")
+		#if is_connected()==1:
+		#	draw.rectangle((116,2,124,10), outline="black", fill="black")
+		#else:
+		#	draw.rectangle((116,2,124,10), outline="black", fill="white")
 
 		# if GPIO.event_detected(lowBat):
 		# 	draw.rectangle((96,3,108,9), outline="black", fill="black")
@@ -150,7 +150,7 @@ def dispListMenu(device,title,menu,pos):
 
 
 
-		draw.rectangle((xdist, pos*10+yoffset, xdist+width, (pos*10)+10+yoffset), outline="white", fill="white")
+		draw.rectangle((xdist, (relative+1)*10+yoffset, xdist+width, ((relative+1)*10)+10+yoffset), outline="white", fill="white")
 		
 		for idx,line in enumerate(cutout):
 			draw.text((xdist,(idx+1)*10+yoffset),line,mlistc[idx])
@@ -179,7 +179,7 @@ def menuMove(device, menu, name):
 
 def main():
 	device=init()
-	menu = ["save project", "load project", "manage sample packs"]
+	menu = ["save project", "load project","manage projects", "manage sample packs","hurra, ich bin","eine option","show bob+vegana"]
 	menuMove(device, menu, "OP-1 Companion")
 
 if __name__ == '__main__':
