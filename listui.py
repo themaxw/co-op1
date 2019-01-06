@@ -827,7 +827,7 @@ def loadFirmware(device):
 
 def scanTapes(device):
 	#directory="/home/pi/Desktop/op1-tapebackups/"
-	directory=homedir+"/op1-tapebackups/"
+	directory=homedir+"/projects/"
 
 	print()
 	print("updating tape index")
