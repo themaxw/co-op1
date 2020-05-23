@@ -1,0 +1,7 @@
+opc-wsl-env/
+opc-env/
+
+__pycache__
+.vscode/
+
+sftp-config.json
