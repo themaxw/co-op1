@@ -4,6 +4,8 @@ from luma.oled.device import sh1106
 import time,os,datetime
 from subprocess import *
 import RPi.GPIO as GPIO
+from time import sleep
+from PIL import Image
 
 from typing import Iterable, Tuple, Callable, List, Optional, Any
 
@@ -93,6 +95,7 @@ class Device:
                 ['y', 'x', 'c', 'v', 'b', 'n', 'm', '-', '(', ')']]
 
     def __init__(self, statusFunctions: Optional[List[Callable[[], bool]]] = []):
+
         if statusFunctions is None:
             statusFunctions = []
         serial = spi(device=0, port=0)
@@ -131,6 +134,10 @@ class Device:
             return True
         else:
             return False
+    def dispImage(self, image="coOP_logo.bmp"):
+        with canvas(self.device) as draw:
+            im = Image.open("coOP_logo.bmp").convert("1")
+            draw.bitmap((0,0),im, fill="white")
 
     def dispText(self, textlist):
         with canvas(self.device) as draw:
@@ -274,6 +281,8 @@ class Device:
 
             elif GPIO.event_detected(self.key['key3']):
                 break
+            else:
+                sleep(0.00001)
 
     def drawKeyboard(self, word, position):
         with canvas(self.device) as draw:
