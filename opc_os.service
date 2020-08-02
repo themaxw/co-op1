@@ -1,0 +1,10 @@
+[Unit]
+Description=User Interface for small sshsomethingsomething screen
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/opc
+ExecStart=python3 /home/pi/opc/home.py
+
+[Install]
+WantedBy=multi-user.target
