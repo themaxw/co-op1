@@ -1,6 +1,7 @@
 opc-wsl-env/
 opc-env/
-
+venv/*
+*venv/*
 __pycache__
 .vscode/
 
