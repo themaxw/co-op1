@@ -187,19 +187,19 @@ def load(device, project):
 
         mounted = mountdevice()
         if not mounted:
-            device.dispError(device, ["Dear OP-1,", "Where Art Thou"])
+            device.dispError(["Dear OP-1,", "Where Art Thou"])
             return False
 
-        device.dispProgress(device, "loading Tape...", 0)
+        device.dispProgress("loading Tape...", 0)
         for i, tape in enumerate(os.listdir(loaddir+"tape/")):
             copy_and_overwrite(loaddir+"tape/"+tape, "/media/op1/tape/"+tape)
-            device.dispProgress(device, "loading Tape...", 0.2*i)
+            device.dispProgress("loading Tape...", 0.2*i)
 
-        # device.dispProgress(device, "loading Synth...", 0.8)
+        # device.dispProgress("loading Synth...", 0.8)
         # for i, synth in enumerate(os.listdir(loaddir+"synth/user/")):
         #     copy_and_overwrite(loaddir+"synth/user/"+synth, "/media/op1/synth/user/"+synth)
 
-        # device.dispProgress(device, "loading Drums...", 0.9)
+        # device.dispProgress("loading Drums...", 0.9)
         # for i, drum in enumerate(os.listdir(loaddir+"drum/user/")):
         #     copy_and_overwrite(loaddir+"drum/user/"+drum, "/media/op1/drum/user/"+drum)
 
@@ -208,14 +208,14 @@ def load(device, project):
 
         unmounted = unmountdevice()
         if not unmounted:
-            device.dispError(device, ["unmount failed", "RIP in Pepperoni"])
+            device.dispError(["unmount failed", "RIP in Pepperoni"])
             return False
 
-        device.dispProgress(device, "successfully loaded", 1)
+        device.dispProgress("successfully loaded", 1)
         time.sleep(0.5)
         return True
     else:
-        device.dispError(device, ["404", " OP-1 not found"])
+        device.dispError(["404", " OP-1 not found"])
         return False
 
 def nothing(device, val):
@@ -233,7 +233,7 @@ def saveCaller(device, val):
 
     projects.sort()
 
-    save = Menu("Save Project", [("NEW PROJECT", saveNew)] + list(zip(projects,[overwrite]*len(projects)))
+    save = Menu("Save Project", [("NEW PROJECT", saveNew)] + [(p, overwrite) for p in projects])
     device.dispMenu(save)
 
 def loadCaller(device, val):
@@ -247,15 +247,15 @@ def loadCaller(device, val):
         projects.append(filename)
 
     projects.sort()
+
     if len(projects) == 0:
-        projects.append("no projects found")
-        actions = [nothing]
+        projects.append("no projects found", nothing)
     else:
-        actions = [load]*len(projects)
+        projects = [(p, load) for p in projects]
 
     print(projects)
-    loadM = menu("Load Project", projects, actions)
-    menuMove(device, loadM)
+    loadM = Menu("Load Project", projects)
+    device.dispMenu(loadM)
 
 def samplepackCaller(device, val):
 
@@ -284,5 +284,5 @@ def restart(device, val):
 
 def opc(device, val):
     
-    main = Menu("OP-1 Companion", [("save project", saveCaller), ("load project",loadCaller)])
+    main = Menu("OP-1 Companion", [("save project", saveCaller), ("load project", loadCaller)])
     device.dispMenu(main)
