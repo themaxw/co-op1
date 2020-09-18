@@ -5,7 +5,7 @@ import time,os,datetime
 from subprocess import *
 import RPi.GPIO as GPIO
 from time import sleep
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from random import randint, random
 
@@ -30,11 +30,19 @@ def randCoords(xy, spread):
 def randomizeCoordList(coords):
     coords = [randCoords(xy, 3) for xy in coords]
 
-coords = [(63,31)] * 20
-while True:
-    with canvas(device) as draw:
+# coords = [(63,31)] * 20
+# while True:
+#     with canvas(device) as draw:
 
-        draw.polygon(coords, outline="white")
-        coords = [randCoords(xy, 5) for xy in coords]
-    sleep(0.01)
+#         draw.polygon(coords, outline="white")
+#         coords = [randCoords(xy, 5) for xy in coords]
+#     sleep(0.01)
+
+im = Image.new("RGBA", (128,64))
+i = ImageDraw.Draw(im)
+i.polygon([(1,1), (30,50), (125,63)], outline="white")
+with canvas(device) as draw:
+    draw.bitmap((0,0), im, fill="white")
+print("ayyy")
+sleep(10)
 
