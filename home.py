@@ -15,7 +15,7 @@ def test():
 
 def main():
     device = Device([is_connected, test])
-    device.dispImage("coOP_logo.bmp")  
+    device.dispImage("/home/pi/opc/resources/coOP_logo.bmp")  
     homeMenu = Menu("Home", [("Files", fileBrowser), ("opc", opc), ("audioplayer", nothing), ("settings", settings), ("reboot", nothing)])
     sleep(2)
     

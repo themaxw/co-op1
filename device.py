@@ -136,7 +136,7 @@ class Device:
             return False
     def dispImage(self, image="coOP_logo.bmp"):
         with canvas(self.device) as draw:
-            im = Image.open("coOP_logo.bmp").convert("1")
+            im = Image.open(image).convert("1")
             draw.bitmap((0,0),im, fill="white")
 
     def dispText(self, textlist):
