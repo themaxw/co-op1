@@ -1,5 +1,7 @@
-from device import Device, Menu
+from coop1.core.device import Device, Menu
 from filetree import File
+
+
 class FileBrowser:
     def __init__(self, device, path):
         self.f = File(path)
@@ -20,10 +22,17 @@ class FileBrowser:
 
     def makeFileBrowser(self):
         directoryList = [("..", self.changeDir)]
-        directoryList.extend([(x.basename, self.changeDir) for x in self.f.dirs if not x.basename.startswith(".")])
+        directoryList.extend(
+            [
+                (x.basename, self.changeDir)
+                for x in self.f.dirs
+                if not x.basename.startswith(".")
+            ]
+        )
         directoryList.extend([(x.basename, self.nothing) for x in self.f.files])
         fileMenu = Menu(self.f.path, directoryList)
         self.device.dispMenu(fileMenu)
+
 
 def fileBrowser(device, val):
     fb = FileBrowser(device, "/home/pi/")

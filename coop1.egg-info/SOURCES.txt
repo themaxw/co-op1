@@ -1,0 +1,7 @@
+setup.py
+coop1/home.py
+coop1.egg-info/PKG-INFO
+coop1.egg-info/SOURCES.txt
+coop1.egg-info/dependency_links.txt
+coop1.egg-info/entry_points.txt
+coop1.egg-info/top_level.txt

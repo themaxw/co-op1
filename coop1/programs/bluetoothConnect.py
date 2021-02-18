@@ -1,3 +1,5 @@
+import bluetooth
+
 # Based on ReachView code from Egor Fedorov (egor.fedorov@emlid.com)
 # Updated for Python 3.6.8 on a Raspberry  Pi
 
@@ -169,3 +171,16 @@ class Bluetoothctl:
                 ["Failed to disconnect", "Successful disconnected", pexpect.EOF]
             )
             return res == 1
+
+
+def scan():
+    devices = bluetooth.discover_devices(lookup_names=True, lookup_class=True)
+    return devices
+
+
+def connect(mac):
+    b = Bluetoothctl()
+    b.send(command="agent on")
+    b.send(command="default-agent")
+    # TODO trust und pair
+    b.connect(mac)
