@@ -4,13 +4,12 @@ from PIL import Image
 from os import path
 from pathlib import Path
 
-print("!!!!!")
-print(__file__)
+
 VENDOR = 0x2367
 PRODUCT = 0x0002
 resourcePath = Path(__file__).parent.parent
 resourcePath = resourcePath.joinpath("resources")
-print(resourcePath)
+
 _op1_connected = Image.open(resourcePath.joinpath("op1_connected.xbm")).convert("1")
 _op1_notConnected = Image.open(resourcePath.joinpath("op1_notConnected.xbm")).convert(
     "1"
