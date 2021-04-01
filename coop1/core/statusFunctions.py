@@ -1,6 +1,7 @@
 import usb.core
 from wifi import Cell, Scheme
 from PIL import Image
+from PIL.ImageOps import invert
 from os import path
 from pathlib import Path
 
@@ -10,17 +11,20 @@ PRODUCT = 0x0002
 resourcePath = Path(__file__).parent.parent
 resourcePath = resourcePath.joinpath("resources")
 
-_op1_connected = Image.open(resourcePath.joinpath("op1_connected.xbm")).convert("1")
-_op1_notConnected = Image.open(resourcePath.joinpath("op1_notConnected.xbm")).convert(
-    "1"
-)
-_wifi_notConnected = Image.open(resourcePath.joinpath("wifi_notConnected.xbm")).convert(
-    "1"
-)
-_wifi_25 = Image.open(resourcePath.joinpath("wifi_25.xbm")).convert("1")
-_wifi_50 = Image.open(resourcePath.joinpath("wifi_50.xbm")).convert("1")
-_wifi_75 = Image.open(resourcePath.joinpath("wifi_75.xbm")).convert("1")
-_wifi_100 = Image.open(resourcePath.joinpath("wifi_100.xbm")).convert("1")
+
+def loadStatusIcon(filename):
+    img = Image.open(resourcePath / filename)
+    return invert(img.convert("RGB")).convert("1")
+
+
+_op1_connected = loadStatusIcon("op1_connected.xbm")
+_op1_notConnected = loadStatusIcon("op1_notConnected.xbm")
+
+_wifi_notConnected = loadStatusIcon("wifi_notConnected.xbm")
+_wifi_25 = loadStatusIcon("wifi_25.xbm")
+_wifi_50 = loadStatusIcon("wifi_50.xbm")
+_wifi_75 = loadStatusIcon("wifi_75.xbm")
+_wifi_100 = loadStatusIcon("wifi_100.xbm")
 
 
 def is_connected():

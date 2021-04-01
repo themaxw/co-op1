@@ -1,9 +1,39 @@
 from PIL import Image, ImageDraw
 from coop1.core.buttons import buttonId
+from coop1.core.programManager import ProgramManager
+
+import os
+
+
+class listItemBase:
+    def __init__(self, name):
+        self.name = name
+
+    def exec(self, programManager):
+        pass
+
+
+class menuItem(listItemBase):
+    def __init__(self, name, listMenu):
+        self.name = name
+        self.listMenu = listMenu
+
+    def exec(self, programManager: ProgramManager):
+        if programManager is not None:
+            programManager.startNewProgram(self.listMenu)
+
+
+class commandItem(listItemBase):
+    def __init__(self, name, command):
+        self.name = name
+        self.command = command
+
+    def exec(self, programManager):
+        os.system(self.command)
 
 
 class Listmenu(object):
-    def __init__(self, name, items, device, active=True, position=0):
+    def __init__(self, name, items, device, position=0):
         self.name = name
         self.items = items
         self.length = len(items)
@@ -16,8 +46,6 @@ class Listmenu(object):
         self._animationFrames = 3
 
         self.setupTextImage()
-        if active:
-            self.activate()
 
     def setupTextImage(self):
         self.textImage = Image.new(
@@ -26,7 +54,7 @@ class Listmenu(object):
         )
         draw = ImageDraw.Draw(self.textImage)
         for i, item in enumerate(self.items):
-            draw.text((self._xOffset, i * self._menuItemOffset), item, "white")
+            draw.text((self._xOffset, i * self._menuItemOffset), item.name, "white")
 
     def getOffset(self):
         if self.length > 5:
@@ -84,12 +112,23 @@ class Listmenu(object):
 
         self.updateDisplay()
 
-    def activate(self):
-        self.device.buttons.putFunctions(onMoveStart=self.__move)
+    def __click(self, key):
+        if key == buttonId["key1"]:
+            self.items[self.position].exec(self.programManager)
+        elif key == buttonId["key3"]:
+            self.programManager.exitProgram()
+
+    def activate(self, programManager: ProgramManager):
+        self.programManager = programManager
+        self.device.buttons.putFunctions(
+            onMoveStart=self.__move, onButtonPress=self.__click
+        )
         self.updateDisplay()
 
-    def deactivate(self):
+    def deactivate(self, reset=False):
         self.device.buttons.removeFunctions()
+        if reset:
+            self.position = 0
 
 
 if __name__ == "__main__":

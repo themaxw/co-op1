@@ -100,3 +100,17 @@ class Buttons:
 
     def removeFunctions(self):
         self.functions.pop()
+
+
+if __name__ == "__main__":
+    from time import sleep
+
+    def longCallback(key):
+        print("callback for key {}".format(key))
+        sleep(1)
+        print("finished callback")
+
+    b = Buttons()
+    b.putFunctions(longCallback, longCallback, longCallback)
+    while True:
+        sleep(10)
